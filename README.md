@@ -3,7 +3,9 @@ It's program - simplified UNIX cron for easy run in docker
 
 
 ## How work with it?
-All jobs configuring in crontab.conf.yml file.   
+Jobs running with envinronment variables.    
+Jobs running from user under which it works.    
+All jobs configuring in crontab.conf.yml file.      
 Run over docker compose:
 ``` 
 git clone https://github.com/meklis/all-ok-cron.git
@@ -88,4 +90,4 @@ Here are the few quick references about crontab simple but powerful syntax.
 
 
 
-P.S. Thanks to Miloš Mileusnić (https://github.com/mileusna) for your work.
+From libraby Miloš Mileusnić (https://github.com/mileusna) 
