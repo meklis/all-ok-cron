@@ -73,10 +73,11 @@ func execJob(name, command, printFormat string, printOutput bool) {
 	err, _ := cmd.StderrPipe()
 	rd_err := bufio.NewReader(err)
 	go func() {
+		time.Sleep(time.Millisecond * 5)
 		for cmd != nil {
 			str, err := rd_out.ReadString('\n')
 			if err != nil {
-				continue
+				return
 			}
 			str = strings.Trim(str, "\n")
 			if printOutput {
@@ -89,10 +90,11 @@ func execJob(name, command, printFormat string, printOutput bool) {
 		}
 	}()
 	go func() {
+		time.Sleep(time.Millisecond * 5)
 		for cmd != nil {
 			str, err := rd_err.ReadString('\n')
 			if err != nil {
-				continue
+				return
 			}
 			if printOutput {
 				if printFormat == "log" {

@@ -8,7 +8,7 @@ cron:
     print_output: true
   - name: Startup
     crontab: "@reboot"
-    job: /usr/bin/php /test/script.php sh 1
+    job: ping 1.1.1.1
     print_output: true
   - name: Foo
     crontab: "* * * * *"
