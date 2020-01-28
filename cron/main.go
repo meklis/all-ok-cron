@@ -96,6 +96,7 @@ func execJob(name, command, printFormat string, printOutput bool) {
 			if err != nil {
 				return
 			}
+			str = strings.Trim(str, "\n")
 			if printOutput {
 				if printFormat == "log" {
 					lg.InfoF("[%v] > %v", name, str)
