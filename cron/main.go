@@ -68,15 +68,17 @@ func execJob(name, command, printFormat string, printOutput bool) {
 	lg.NoticeF("[%v] start execute command '%v'", name, command)
 	cmd := exec.Command("/bin/bash", "-c", command)
 	cmd.Env = os.Environ()
-	out, _ := cmd.StdoutPipe()
-	rd_out := bufio.NewReader(out)
-	err, _ := cmd.StderrPipe()
-	rd_err := bufio.NewReader(err)
+	outPipe, _ := cmd.StdoutPipe()
+	rd_out := bufio.NewReader(outPipe)
+	errPipe, _ := cmd.StderrPipe()
+	rd_err := bufio.NewReader(errPipe)
 	go func() {
 		time.Sleep(time.Millisecond * 5)
 		for cmd != nil {
 			str, err := rd_out.ReadString('\n')
 			if err != nil {
+				rd_out = nil
+				outPipe.Close()
 				return
 			}
 			str = strings.Trim(str, "\n")
@@ -94,6 +96,8 @@ func execJob(name, command, printFormat string, printOutput bool) {
 		for cmd != nil {
 			str, err := rd_err.ReadString('\n')
 			if err != nil {
+				rd_err = nil
+				errPipe.Close()
 				return
 			}
 			str = strings.Trim(str, "\n")
@@ -115,4 +119,6 @@ func execJob(name, command, printFormat string, printOutput bool) {
 	} else {
 		lg.NoticeF("[%v] finished with code %v", name, code)
 	}
+
+	cmd = nil
 }
